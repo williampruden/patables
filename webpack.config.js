@@ -1,9 +1,8 @@
 'use strict'
 const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = (env) => {
   console.log('WEBPACK ENV:', env)
@@ -13,18 +12,17 @@ module.exports = (env) => {
   const isDev = env === 'development'
 
   // PLUGGINS
-  // minifying our CSS
-  const CSSPlugin = new MiniCssExtractPlugin({
-    filename: '[name].css',
-    chunkFilename: '[id].css'
-  })
-
   // cleans 'dist' folder everytime before a new build
   const CleanPLugin = new CleanWebpackPlugin(['dist'], {
     root: __dirname,
     verbose: true,
     dry: false
   })
+
+  const CopyPlugin = new CopyWebpackPlugin([{
+    from: 'index.js',
+    to: '.'
+  }])
 
   // BUILDING WEBPACK
   const config = {}
@@ -42,9 +40,6 @@ module.exports = (env) => {
       }
     },
     minimizer: [
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: { discardComments: { removeAll: true } }
-      }),
       new UglifyJsPlugin({
         sourceMap: true,
         uglifyOptions: {
@@ -57,7 +52,7 @@ module.exports = (env) => {
     ]
   }
 
-  config.plugins = [CSSPlugin, CleanPLugin]
+  config.plugins = [CleanPLugin, CopyPlugin]
 
   config.module = {
     rules: [
@@ -65,24 +60,6 @@ module.exports = (env) => {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
         exclude: /node_modules/
-      },
-      {
-        test: /\.s?css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true
-            }
-          }
-        ]
       }
     ]
   }
@@ -105,16 +82,12 @@ module.exports = (env) => {
   if (isDev) {
     config.output = {
       path: path.join(__dirname, 'dist'),
-      filename: 'index.js'
+      chunkFilename: '[name].js',
+      filename: '[name].js'
     }
 
     config.mode = 'development'
     config.devtool = 'inline-source-map'
-
-    config.devServer = {
-      contentBase: path.join(__dirname, 'dist'),
-      historyApiFallback: true
-    }
   }
 
   return config
