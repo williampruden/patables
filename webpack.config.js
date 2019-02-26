@@ -32,6 +32,15 @@ module.exports = (env) => {
   config.entry = ['@babel/polyfill', './src/app.js']
 
   config.optimization = {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'initial'
+        }
+      }
+    },
     minimizer: [
       new OptimizeCSSAssetsPlugin({
         cssProcessorOptions: { discardComments: { removeAll: true } }
@@ -86,7 +95,8 @@ module.exports = (env) => {
     config.output = {
       path: path.join(__dirname, './dist'),
       publicPath: '/',
-      filename: 'index.js'
+      chunkFilename: '[name].js',
+      filename: '[name].js'
     }
     config.mode = 'production'
     config.devtool = 'source-map'

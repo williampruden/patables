@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { isEqual } from './utils/helpers'
 
-class Patables extends Component {
+export class Patables extends Component {
   constructor(props) {
     super(props)
 
@@ -173,5 +173,3 @@ Patables.propTypes = {
   sortOrder: PropTypes.string,
   pageNeighbours: PropTypes.number
 }
-
-export default Patables

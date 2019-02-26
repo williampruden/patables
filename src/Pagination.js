@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-class Pagination extends Component {
+export class Pagination extends Component {
   render() {
     return (
       <ul className='pagination rounded-flat pagination-primary d-flex justify-content-center'>
@@ -44,5 +44,3 @@ Pagination.propTypes = {
   pageNumber: PropTypes.number,
   paginationButtons: PropTypes.array
 }
-
-export default Pagination

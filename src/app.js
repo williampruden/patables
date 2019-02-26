@@ -1,4 +1,2 @@
-import Patables from './Patables'
-import Pagination from './Pagination'
-
-export { Patables, Pagination }
+export * from './Patables'
+export * from './Pagination'
