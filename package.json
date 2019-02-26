@@ -1,7 +1,7 @@
 {
   "name": "patables",
   "description": "Tables made easy in under 30 mins",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "author": "William Pruden <williamprudeniv@gmail.com>",
   "repository": "williampruden/patables",
@@ -28,7 +28,6 @@
     "test": "jest --config=jest.config.js"
   },
   "dependencies": {
-    "copy-webpack-plugin": "^5.0.0",
     "react": "16.8.3"
   },
   "devDependencies": {
@@ -44,6 +43,7 @@
     "babel-jest": "24.1.0",
     "babel-loader": "8.0.5",
     "clean-webpack-plugin": "1.0.1",
+    "copy-webpack-plugin": "^5.0.0",
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.10.0",
     "enzyme-to-json": "3.3.5",
