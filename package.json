@@ -1,10 +1,17 @@
 {
   "name": "patables",
   "description": "Tables made easy in under 30 mins",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "MIT",
   "author": "William Pruden <williamprudeniv@gmail.com>",
-  "repository": "williampruden/patables",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williampruden/patables"
+  },
+  "homepage": "https://github.com/williampruden/patables/blob/master/README.md",
+  "bugs": {
+    "url": "https://github.com/williampruden/patables/issues"
+  },
   "keywords": [
     "patables",
     "react",
@@ -14,21 +21,18 @@
     "data tables",
     "render props"
   ],
-  "main": "dist/main.js",
+  "main": "dist/index.min.js",
   "module": "dist/vendor.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "start": "npm run build:prod && node server.js",
-    "build:dev": "webpack --env development",
-    "build:prod": "webpack -p --env production",
+    "prepublish": "yarn test",
+    "build": "rollup -c -o dist/index.min.js",
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "lint:fix": "./node_modules/eslint/bin/eslint.js . --fix",
     "test": "jest --config=jest.config.js"
-  },
-  "dependencies": {
-    "react": "16.8.3"
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",
@@ -40,13 +44,8 @@
     "@babel/preset-react": "7.0.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
-    "babel-jest": "24.1.0",
-    "babel-loader": "8.0.5",
-    "clean-webpack-plugin": "1.0.1",
-    "copy-webpack-plugin": "^5.0.0",
-    "enzyme": "3.9.0",
-    "enzyme-adapter-react-16": "1.10.0",
-    "enzyme-to-json": "3.3.5",
+    "babel-jest": "23.6.0",
+    "babel-preset-react": "^6.24.1",
     "eslint": "5.8.0",
     "eslint-config-standard": "12.0.0",
     "eslint-plugin-import": "2.14.0",
@@ -55,9 +54,9 @@
     "eslint-plugin-react": "7.11.1",
     "eslint-plugin-standard": "4.0.0",
     "jest": "23.6.0",
-    "react-test-renderer": "16.8.3",
-    "uglifyjs-webpack-plugin": "2.1.1",
-    "webpack": "4.29.5",
-    "webpack-cli": "3.2.3"
+    "react": "^16.8.3",
+    "rollup": "^1.3.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-uglify": "^6.0.2"
   }
 }
