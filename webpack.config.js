@@ -1,7 +1,5 @@
 'use strict'
 const path = require('path')
-// const webpack = require('webpack')
-// const packageJSON = require('./package.json')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -21,13 +19,6 @@ module.exports = (env) => {
     chunkFilename: '[id].css'
   })
 
-  // creating global variables for the app.
-  // const DefinePlug = new webpack.DefinePlugin({
-  //   VERSION: JSON.stringify(packageJSON.version),
-  //   baseURL: JSON.stringify(process.env.API_URL),
-  //   stripePK: JSON.stringify(process.env.STRIPE_PK)
-  // })
-
   // cleans 'dist' folder everytime before a new build
   const CleanPLugin = new CleanWebpackPlugin(['dist'], {
     root: __dirname,
@@ -41,18 +32,6 @@ module.exports = (env) => {
   config.entry = ['@babel/polyfill', './src/app.js']
 
   config.optimization = {
-    // splitChunks: {
-    //   cacheGroups: {
-    //     commons: {
-    //       test: /[\\/]node_modules[\\/]/,
-    //       name: 'vendor',
-    //       chunks: 'initial'
-    //     }
-    //   }
-    // },
-    // runtimeChunk: {
-    //   name: 'manifest'
-    // },
     minimizer: [
       new OptimizeCSSAssetsPlugin({
         cssProcessorOptions: { discardComments: { removeAll: true } }
