@@ -1,0 +1,72 @@
+{
+  "name": "patables",
+  "description": "Tables made easy in under 30 mins",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "William Pruden <williamprudeniv@gmail.com>",
+  "repository": "williampruden/patables",
+  "keywords": [
+    "patables",
+    "react",
+    "react-dom",
+    "tables",
+    "pagination",
+    "result sets",
+    "data tables",
+    "render props"
+  ],
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "npm run build:prod && node server.js",
+    "dev-server": "webpack-dev-server --env development",
+    "build:dev": "webpack --env development",
+    "build:prod": "webpack -p --env production",
+    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "lint:fix": "./node_modules/eslint/bin/eslint.js . --fix",
+    "test": "jest --config=jest.config.js"
+  },
+  "dependencies": {
+    "react": "16.8.3",
+    "react-dom": "16.8.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.2.3",
+    "@babel/core": "7.3.4",
+    "@babel/plugin-proposal-class-properties": "7.3.4",
+    "@babel/plugin-syntax-dynamic-import": "7.2.0",
+    "@babel/polyfill": "7.2.5",
+    "@babel/preset-env": "7.3.4",
+    "@babel/preset-react": "7.0.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "10.0.1",
+    "babel-jest": "24.1.0",
+    "babel-loader": "8.0.5",
+    "clean-webpack-plugin": "1.0.1",
+    "compass-mixins": "0.12.10",
+    "css-loader": "2.0.1",
+    "dotenv": "6.2.0",
+    "enzyme": "3.9.0",
+    "enzyme-adapter-react-16": "1.10.0",
+    "enzyme-to-json": "3.3.5",
+    "eslint": "5.8.0",
+    "eslint-config-standard": "12.0.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-node": "8.0.0",
+    "eslint-plugin-promise": "4.0.1",
+    "eslint-plugin-react": "7.11.1",
+    "eslint-plugin-standard": "4.0.0",
+    "jest": "23.6.0",
+    "mini-css-extract-plugin": "0.4.4",
+    "node-sass": "4.10.0",
+    "optimize-css-assets-webpack-plugin": "5.0.1",
+    "react-test-renderer": "16.6.0",
+    "sass-loader": "7.1.0",
+    "uglifyjs-webpack-plugin": "2.0.1",
+    "webpack": "4.24.0",
+    "webpack-cli": "3.1.2",
+    "webpack-dev-server": "3.1.10"
+  }
+}
