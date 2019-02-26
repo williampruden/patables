@@ -1,14 +1,13 @@
 {
   "name": "patables",
   "description": "Tables made easy in under 30 mins",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "author": "William Pruden <williamprudeniv@gmail.com>",
   "repository": "williampruden/patables",
   "keywords": [
     "patables",
     "react",
-    "react-dom",
     "tables",
     "pagination",
     "result sets",

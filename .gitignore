@@ -1,4 +1,13 @@
 node_modules
 dist
+compiled
+*.log
+coverage
 .DS_Store
-.vscode
+next.d.ts
+legacy.d.ts
+.idea
+*.orig
+.DS_Store
+
+node_modules
