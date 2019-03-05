@@ -13,7 +13,7 @@ export class Patables extends Component {
       initialData: this.props.initialData || [],
       sortColumn: this.props.sortColumn || '',
       sortOrder: this.props.sortOrder || 'asc',
-      pageNeighbours: this.props.pageNeighbours || 2
+      pageNeighbors: this.props.pageNeighbors || 2
     }
 
     this.sortByColumn = this.sortByColumn.bind(this)
@@ -78,7 +78,13 @@ export class Patables extends Component {
   }
 
   // RESULT SET
-  setResultSet(resultSet) {
+  setResultSet(value) {
+    let resultSet = value
+
+    if (typeof resultSet === 'string') {
+      resultSet = parseInt(resultSet)
+    }
+
     let totalPages = Math.ceil(this.state.initialData.length / resultSet)
     let currentPage = totalPages >= this.state.currentPage ? this.state.currentPage : 1
     this.setState(() => ({ resultSet, totalPages, currentPage }))
@@ -114,22 +120,22 @@ export class Patables extends Component {
   }
 
   getPagination() {
-    const { currentPage, totalPages, pageNeighbours } = this.state
-    const totalNumbers = (pageNeighbours * 2) + 1
+    const { currentPage, totalPages, pageNeighbors } = this.state
+    const totalNumbers = (pageNeighbors * 2) + 1
     let pages = []
 
     if (totalPages > totalNumbers) {
       let startPage, endPage
 
-      if (currentPage <= (pageNeighbours + 1)) {
+      if (currentPage <= (pageNeighbors + 1)) {
         startPage = 1
-        endPage = (pageNeighbours * 2) + 1
-      } else if (currentPage > (totalPages - pageNeighbours)) {
-        startPage = totalPages - ((pageNeighbours * 2))
+        endPage = (pageNeighbors * 2) + 1
+      } else if (currentPage > (totalPages - pageNeighbors)) {
+        startPage = totalPages - ((pageNeighbors * 2))
         endPage = totalPages
       } else {
-        startPage = currentPage - pageNeighbours
-        endPage = currentPage + pageNeighbours
+        startPage = currentPage - pageNeighbors
+        endPage = currentPage + pageNeighbors
       }
 
       pages = this.range(startPage, endPage)
@@ -158,18 +164,18 @@ export class Patables extends Component {
     const renderProps = this.getRenderProps()
     return (
       <div>
-        {this.props.renderTable(renderProps)}
+        {this.props.render(renderProps)}
       </div>
     )
   }
 }
 
 Patables.propTypes = {
-  renderTable: PropTypes.func,
+  render: PropTypes.func,
   initialData: PropTypes.array,
   resultSet: PropTypes.number,
   startingPage: PropTypes.number,
   sortColumn: PropTypes.string,
   sortOrder: PropTypes.string,
-  pageNeighbours: PropTypes.number
+  pageNeighbors: PropTypes.number
 }
