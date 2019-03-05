@@ -8,7 +8,7 @@ Can't find an easy way to organize your table data without sacrificing all the d
 * [The "props"](#the-props)
 
 
-## The Installation
+## The Install
 You can install PaTables with either NPM or Yarn
 
 
@@ -28,8 +28,8 @@ $ yarn add patables
 ```js
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Search from './Search'
-import { Patables, Pagination } from 'patables'
+import axios from 'axios'
+import { Patables } from 'patables'
 
 class Users extends Component {
   constructor(props) {
@@ -122,15 +122,13 @@ class Users extends Component {
     }
 
     return (
-      <div className='container'>
+      <div className='container mt-5'>
         <div className='row'>
           <div className='col-md-12'>
-            <h1>Assets</h1>
+            <h1>Users</h1>
 
             <hr className='mb-4' />
-            
-            <Search />
-            
+                        
             <Patables
                 render={renderTable}
                 initialData={this.state.users}
@@ -145,7 +143,6 @@ class Users extends Component {
 }
 
 export default Users
-
 ```
 
 
@@ -167,7 +164,7 @@ Render takes a function that returns the JSX you wish to render onto the bag. Th
 <Patables
   render={(props) => {
     return (
-
+      // your table here
     )
   }} />
 ```
