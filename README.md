@@ -147,14 +147,14 @@ export default Users
 
 
 ## The API
-|Prop           |Type   	    |Example   	         |Default  |
-|---	          |---	        |---	               |---	     |
-|render         |Function     |(props) => {}       |         |
-|initialData    |Array      	|[{...},{...},{...}] |         |
-|sortColumn     |String      	|"firstName"         |         |
-|sortOrder      |String      	|"desc"              |"asc"    |
-|startingPage   |Number      	|2        	         |1        |
-|pageNeighbors |Number      	|3         	         |2        |
+|Prop           |Type   	    |Example   	         |Default  | Required |
+|---	          |---	        |---	               |---	     |---       |
+|render         |Function     |(props) => {}       |         |true      |
+|initialData    |Array      	|[{...},{...},{...}] |         |true      |
+|sortColumn     |String      	|"firstName"         |         |          |
+|sortOrder      |String      	|"desc"              |"asc"    |          |
+|startingPage   |Number      	|2        	         |1        |          |
+|pageNeighbors |Number      	|3         	         |2        |          |
 
 
 #### render
@@ -180,7 +180,12 @@ componentDidMount() {
 }
 
 <Patables
-  render={this.state.data} />
+  initialData={this.state.data}
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} />
 ```
 
 
@@ -200,8 +205,13 @@ data = [
 ]
 
 <Patables
-  render={this.data}
-  sortColumn='firstName' />
+  sortColumn='firstName'
+  initialData={this.data}
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} />
 ```
 
 
@@ -212,9 +222,14 @@ By default Patables will sort your data in `asc` (ascending order). If you wish 
 data = [...users]
 
 <Patables
-  render={this.data}
+  sortOrder='desc'
   sortColumn='firstName'
-  sortOrder='desc' />
+  initialData={this.data}
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} />
 ```
 
 
@@ -225,8 +240,13 @@ If for some reason you don't want the table to start on the first page of result
 data = [...users]
 
 <Patables
-  render={this.data}
-  startingPage={3} />
+  startingPage={3}
+  initialData={this.data}
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} />
 ```
 
 
@@ -235,16 +255,30 @@ Patables will provide to you the pagination logic for your tables. Here is your 
 
 ```js
 <Patables
-  render={this.state.data}
-  pageNeighbors={1} /> // will give you: [1, 2, 3]
+  pageNeighbors={1} // will give you: [1, 2, 3]
+  initialData={this.data}
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} /> 
 
 <Patables
-  render={this.state.data}
-  pageNeighbors={2} /> // will give you: [1, 2, 3, 4, 5]
-
+  pageNeighbors={2} // will give you: [1, 2, 3, 4, 5]
+  initialData={this.data}
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} /> 
 <Patables
-  render={this.state.data}
-  pageNeighbors={3} /> // will give you: [1, 2, 3, 4, 5, 6, 7]
+  pageNeighbors={3} // will give you: [1, 2, 3, 4, 5, 6, 7]
+  initialData={this.data}
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} /> 
 ```
 
 
