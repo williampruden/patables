@@ -49,6 +49,13 @@ class Users extends Component {
     const renderTable = (props) => {
       return (
         <div>
+          <div className='form-row mb-3'>
+            <input
+              className='form-control'
+              placeholder='Search...'
+              value={props.search}
+              onChange={props.setSearchTerm}/>
+          </div>
           <table className='table table-hover mb-4'>
             <thead className='bg-primary text-white'>
               <tr>
@@ -134,7 +141,8 @@ class Users extends Component {
                 initialData={this.state.users}
                 resultSet={5}
                 sortColumn='firstName'
-                sortOrder='desc' />
+                sortOrder='desc'
+                searchKeys={['firstName', 'lastName']} />
           </div>
         </div>
       </div>
@@ -151,10 +159,11 @@ export default Users
 |---	          |---	        |---	               |---	     |---       |
 |render         |Function     |(props) => {}       |         |true      |
 |initialData    |Array      	|[{...},{...},{...}] |         |true      |
+|searchKeys     |Array      	|['firstName']       |all keys |          |
 |sortColumn     |String      	|"firstName"         |         |          |
 |sortOrder      |String      	|"desc"              |"asc"    |          |
 |startingPage   |Number      	|2        	         |1        |          |
-|pageNeighbors |Number      	|3         	         |2        |          |
+|pageNeighbors  |Number      	|3         	         |2        |          |
 
 
 #### render
@@ -181,6 +190,25 @@ componentDidMount() {
 
 <Patables
   initialData={this.state.data}
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} />
+```
+
+
+#### searchKeys
+You will be given a method in the next section called `setSearchTerm` that will allow you to do a filter search on the objects retured to you.  By default your search term will be applied to every single `key: value` pair found in each object in your `initialData`. `searchKeys` is a way to specify which keys you want the `searchTerm` to be applied against. In the example below our search will only be looking for matches with the `firstName` and `lastName` and NOT `dob` or `occupation`. It is highly recommended to pass along a value for `searchKeys` to improve the performance of this filter feature.
+
+```js
+data = [...users]
+
+<Patables
+  sortOrder='desc'
+  sortColumn='firstName'
+  initialData={this.data}
+  searchKeys={['firstName', 'lastName']}
   render={(props) => {
     return (
       // your table here
@@ -294,6 +322,8 @@ The render function as we learned in the previous section is handed a set of met
 |paginationButtons    |Array      	|
 |prevDisabled         |Boolean    	|
 |resultSet            |Number      	|
+|search               |String       |
+|setSearchTerm        |Function     |
 |setColumnSortToggle  |Function    	|
 |setPageNumber        |Function    	|
 |setResultSet         |Function     |
@@ -365,6 +395,20 @@ paginationButtons is an array of the page numbers you need to display in your pa
 
 #### resultSet
 resultSet is how many items will be returned in our [visibleData](#visibledata) array. The default value is 10 however when creating your instance of `<Patables />` you can pass in a new default. If you want to let your user specify the result set then please use the [setResultSet](#setresultset) method
+
+
+#### search / setSearchTerm
+these two go hand in hand as `setSearchTerm` will be the method you use to set the value for `search`.  Both of these values will be passed back in props and can be used like this in your `renderTable` method:
+
+```js
+<div className='form-row mb-3'>
+  <input
+    className='form-control'
+    placeholder='Search...'
+    value={props.search}
+    onChange={props.setSearchTerm}/>
+</div>
+```
 
 
 #### setColumnSortToggle

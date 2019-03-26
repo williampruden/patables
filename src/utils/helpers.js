@@ -51,3 +51,12 @@ export const isEqual = function (value, other) {
 
   return true
 }
+
+export const isFunction = function(functionToCheck) {
+  if (functionToCheck && {}.toString.call(functionToCheck) === '[object Function]') {
+    return true
+  } else {
+    console.warn(`Please provide a valid function to`)
+    return false
+  }
+}

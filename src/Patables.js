@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { isEqual } from './utils/helpers'
+import { isEqual, isFunction } from './utils/helpers'
 
 export class Patables extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      search: '',
+      searchKeys: this.props.searchKeys || [],
       currentPage: this.props.startingPage || 1,
       resultSet: this.props.resultSet || 10,
       totalPages: Math.ceil(this.props.initialData.length / this.props.resultSet),
@@ -16,6 +18,8 @@ export class Patables extends Component {
       pageNeighbors: this.props.pageNeighbors || 2
     }
 
+    this.setSearchTerm = this.setSearchTerm.bind(this)
+    this.searchFilter = this.searchFilter.bind(this)
     this.sortByColumn = this.sortByColumn.bind(this)
     this.setColumnSortToggle = this.setColumnSortToggle.bind(this)
     this.setPageNumber = this.setPageNumber.bind(this)
@@ -40,6 +44,22 @@ export class Patables extends Component {
       let totalPages = Math.ceil(initialData.length / this.state.resultSet)
       this.setState(() => ({ initialData, totalPages }))
     }
+  }
+
+  // SEARCHING
+  setSearchTerm = (e) => {
+    let search = e.target.value
+    this.setState(() => ({ search }))
+  }
+
+  searchFilter = (arr, searchTerm, searchkeys) => {
+    let searchKeys = searchkeys.length === 0 ? Object.keys(arr[0]) : searchkeys
+    return arr.filter((obj) => {
+      return searchKeys.some((key) => {
+        if (obj[key] === null || obj[key] === undefined) { return false }
+        return obj[key].toString().toLowerCase().includes(searchTerm.toLowerCase())
+      })
+    })
   }
 
   // SORTING
@@ -92,14 +112,21 @@ export class Patables extends Component {
 
   // VISIBLE DATA
   getVisibleData() {
-    let { initialData, currentPage, resultSet } = this.state
+    let { initialData, currentPage, resultSet, search, searchKeys } = this.state
     let offset = (currentPage - 1) * parseInt(resultSet)
     let topOfRange = offset + parseInt(resultSet)
 
+    // searchFilter will return a result set where the searchTerm matches the designated searchKeys
+    if (this.state.search !== '') {
+      initialData = this.searchFilter(initialData, search, searchKeys)
+    }
+
+    // sortByColumn will return a result set which is ordered by sortColumn and sortOrder
     if (this.state.sortColumn !== '') {
       initialData = this.sortByColumn(initialData)
     }
 
+    // reducing the result set down to one page worth of data
     return initialData.filter((d, i) => {
       const visibleData = i >= offset && i < topOfRange
       return visibleData
@@ -153,6 +180,7 @@ export class Patables extends Component {
       setColumnSortToggle: this.setColumnSortToggle,
       setPageNumber: this.setPageNumber,
       setResultSet: this.setResultSet,
+      setSearchTerm: this.setSearchTerm,
       nextDisabled: this.state.totalPages === this.state.currentPage,
       prevDisabled: this.state.currentPage === 1,
       visibleData: this.getVisibleData(),
@@ -161,10 +189,23 @@ export class Patables extends Component {
   }
 
   render() {
+    const { children, render } = this.props
     const renderProps = this.getRenderProps()
+
+    const renderComp = () => {
+      if (render && isFunction(render)) {
+        return render(renderProps)
+      } else if (children && isFunction(children)) {
+        return children(renderProps)
+      } else {
+        console.warn('Please provide a valid render prop or child.')
+        return undefined
+      }
+    }
+
     return (
       <div>
-        {this.props.render(renderProps)}
+        {renderComp()}
       </div>
     )
   }
@@ -172,10 +213,12 @@ export class Patables extends Component {
 
 Patables.propTypes = {
   render: PropTypes.func,
-  initialData: PropTypes.array,
+  children: PropTypes.func,
+  initialData: PropTypes.array.isRequired,
   resultSet: PropTypes.number,
   startingPage: PropTypes.number,
   sortColumn: PropTypes.string,
   sortOrder: PropTypes.string,
-  pageNeighbors: PropTypes.number
+  pageNeighbors: PropTypes.number,
+  searchKeys: PropTypes.array
 }
