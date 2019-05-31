@@ -47,19 +47,30 @@ export class Patables extends Component {
   }
 
   // SEARCHING
-  setSearchTerm = (e) => {
+  setSearchTerm(e) {
     let search = e.target.value
     this.setState(() => ({ search }))
   }
 
-  searchFilter = (arr, searchTerm, searchkeys) => {
+  searchFilter(arr, searchTerm, searchkeys) {
+    // if searchkeys aren't provided use the keys off the first object in array by default
     let searchKeys = searchkeys.length === 0 ? Object.keys(arr[0]) : searchkeys
-    return arr.filter((obj) => {
+    let filteredArray = arr.filter((obj) => {
       return searchKeys.some((key) => {
         if (obj[key] === null || obj[key] === undefined) { return false }
         return obj[key].toString().toLowerCase().includes(searchTerm.toLowerCase())
       })
     })
+
+    // Resetting the total pages based on filtered data
+    let totalPages = Math.ceil(filteredArray.length / this.state.resultSet)
+    console.log('totalPages: ', totalPages)
+    console.log('filteredArray: ', filteredArray)
+    if (totalPages !== this.state.totalPages) {
+      this.setState(() => ({ totalPages, currentPage: 1 }))
+    }
+
+    return filteredArray
   }
 
   // SORTING
@@ -119,6 +130,11 @@ export class Patables extends Component {
     // searchFilter will return a result set where the searchTerm matches the designated searchKeys
     if (this.state.search !== '') {
       initialData = this.searchFilter(initialData, search, searchKeys)
+    } else {
+      let totalPages = Math.ceil(initialData.length / this.state.resultSet)
+      if (totalPages !== this.state.totalPages) {
+        this.setState(() => ({ totalPages, currentPage: 1 }))
+      }
     }
 
     // sortByColumn will return a result set which is ordered by sortColumn and sortOrder
