@@ -164,6 +164,7 @@ export default Users
 |sortOrder      |String      	|"desc"              |"asc"    |          |
 |startingPage   |Number      	|2        	         |1        |          |
 |pageNeighbors  |Number      	|3         	         |2        |          |
+|resultSet      |Number      	|5         	         |10       |          |
 
 
 #### render
@@ -299,6 +300,7 @@ Patables will provide to you the pagination logic for your tables. Here is your 
       // your table here
     )
   }} /> 
+
 <Patables
   pageNeighbors={3} // will give you: [1, 2, 3, 4, 5, 6, 7]
   initialData={this.data}
@@ -308,6 +310,20 @@ Patables will provide to you the pagination logic for your tables. Here is your 
     )
   }} /> 
 ```
+
+#### resultSet
+By default Patables will return the first 10 results to you to display on the screen.  If you would like to change the default setting just pass your desired return into `resultSet`.
+
+```js
+<Patables
+  initialData={this.data}
+  resultSet={20} // Patables will now return 20 items per page.
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} /> 
+  ```
 
 
 ## The "props"
