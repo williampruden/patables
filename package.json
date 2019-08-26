@@ -1,7 +1,7 @@
 {
   "name": "patables",
   "description": "Tables made easy in under 30 mins",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "license": "MIT",
   "author": "William Pruden <williamprudeniv@gmail.com>",
   "repository": {
@@ -57,7 +57,7 @@
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-react": "7.11.1",
     "eslint-plugin-standard": "4.0.0",
-    "jest": "23.6.0",
+    "jest": "24.9.0",
     "react": "^16.8.3",
     "rollup": "^1.3.0",
     "rollup-plugin-babel": "^4.3.2",
