@@ -28,6 +28,7 @@ export class Patables extends Component {
     this.range = this.range.bind(this)
     this.getPagination = this.getPagination.bind(this)
     this.getRenderProps = this.getRenderProps.bind(this)
+    this.removeTableData = this.removeTableData.bind(this)
   }
 
   // LIFECYCLE METHODS
@@ -113,6 +114,7 @@ export class Patables extends Component {
   //removeItemKey must be unique identifier like 'id'
   removeTableData(arr, removeItemKey) {
     console.log('remove: ', removeItemKey)
+    console.log('Hey I updated')
     let removeItem = arr && arr.find((obj) => obj.id === removeItemKey)
     let index = arr && removeItem && arr.findIndex((obj)=> removeItem.id === obj.id)
     if(index !== -1 && index !== undefined) {
@@ -215,7 +217,8 @@ export class Patables extends Component {
       nextDisabled: this.state.totalPages === this.state.currentPage,
       prevDisabled: this.state.currentPage === 1,
       visibleData: this.getVisibleData(),
-      paginationButtons: this.getPagination()
+      paginationButtons: this.getPagination(),
+      removeTableData: this.removeTableData
     }
   }
 
