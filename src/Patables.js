@@ -119,7 +119,7 @@ export class Patables extends Component {
     let index = arr && removeItem && arr.findIndex((obj)=> removeItem.id === obj.id)
     if(index !== -1 && index !== undefined) {
       arr.splice(index,1)
-      this.setState(() => ({users: arr}))
+      this.setState(() => ({initialData: arr}))
     } else {
       console.log('no matching id to remove')
     }
