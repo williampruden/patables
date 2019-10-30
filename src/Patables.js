@@ -108,6 +108,21 @@ export class Patables extends Component {
     this.setState(() => ({ currentPage }))
   }
 
+  
+  //Remove data entry
+  //removeItemKey must be unique identifier like 'id'
+  removeTableData(arr, removeItemKey) {
+    console.log('remove: ', removeItemKey)
+    let removeItem = arr && arr.find((obj) => obj.id === removeItemKey)
+    let index = arr && removeItem && arr.findIndex((obj)=> removeItem.id === obj.id)
+    if(index !== -1 && index !== undefined) {
+      arr.splice(index,1)
+      this.setState(() => ({users: arr}))
+    } else {
+      console.log('no matching id to remove')
+    }
+  }
+
   // RESULT SET
   setResultSet(value) {
     let resultSet = value
