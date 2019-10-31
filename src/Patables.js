@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { isEqual, isFunction } from './utils/helpers'
 
-export class Patables extends Component {
+export default class Patables extends Component {
   constructor(props) {
     super(props)
 
@@ -109,17 +109,16 @@ export class Patables extends Component {
     this.setState(() => ({ currentPage }))
   }
 
-  
-  //Remove data entry
-  //removeItemKey must be unique identifier like 'id'
+  // Remove data entry
+  // removeItemKey must be unique identifier like 'id'
   removeTableData(arr, removeItemKey) {
     console.log('remove: ', removeItemKey)
     console.log('Hey I updated')
     let removeItem = arr && arr.find((obj) => obj.id === removeItemKey)
-    let index = arr && removeItem && arr.findIndex((obj)=> removeItem.id === obj.id)
-    if(index !== -1 && index !== undefined) {
-      arr.splice(index,1)
-      this.setState(() => ({initialData: arr}))
+    let index = arr && removeItem && arr.findIndex((obj) => removeItem.id === obj.id)
+    if (index !== -1 && index !== undefined) {
+      arr.splice(index, 1)
+      this.setState(() => ({ initialData: arr }))
     } else {
       console.log('no matching id to remove')
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-class Pagination extends Component {
+export default class Pagination extends Component {
   constructor(props) {
     super(props)
 
@@ -15,6 +15,14 @@ class Pagination extends Component {
         </ul>
       ) : (
         <ul className='pagination rounded-flat pagination-primary d-flex justify-content-center'>
+          <li
+            className={this.props.prevDisabled ? 'page-item invisible' : 'page-item'}
+            onClick={() => { this.props.setPageNumber(1) }}>
+            <a className='page-link' aria-label='Next'>
+              <span aria-hidden='true'>1</span>
+              <span className='sr-only'>1</span>
+            </a>
+          </li>
           <li
             className={this.props.prevDisabled ? 'page-item invisible' : 'page-item'}
             onClick={() => { this.props.setPageNumber(this.props.pageNumber - 1) }}>
@@ -34,12 +42,25 @@ class Pagination extends Component {
             })
           }
 
+          {/*  page shows first and last page at Pagination */}
           <li
             className={this.props.nextDisabled ? 'page-item invisible' : 'page-item'}
-            onClick={() => { this.props.setPageNumber(this.props.pageNumber + 1) }}>
+            onClick={() => {
+              !this.props.nextDisabled
+                ? this.props.setPageNumber(this.props.pageNumber + 1)
+                : console.log('page ended!')
+            }}>
             <a className='page-link' aria-label='Next'>
               <span aria-hidden='true'>&raquo;</span>
               <span className='sr-only'>Next</span>
+            </a>
+          </li>
+          <li
+            className={this.props.nextDisabled ? 'page-item invisible' : 'page-item'}
+            onClick={() => { this.props.setPageNumber(this.props.totalPage) }}>
+            <a className='page-link' aria-label='Next'>
+              <span aria-hidden='true'>{this.props.totalPage}</span>
+              <span className='sr-only'>{this.props.totalPage}</span>
             </a>
           </li>
         </ul>
@@ -48,11 +69,10 @@ class Pagination extends Component {
 }
 
 Pagination.propTypes = {
+  totalPage: PropTypes.number,
   prevDisabled: PropTypes.bool,
   nextDisabled: PropTypes.bool,
   setPageNumber: PropTypes.func,
   pageNumber: PropTypes.number,
   paginationButtons: PropTypes.array
 }
-
-export default Pagination
