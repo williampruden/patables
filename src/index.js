@@ -1,3 +1,4 @@
-import { Patables } from './Patables'
+import Patables from './Patables'
+import PatablesAsync from './PatablesAsync'
 
-export { Patables }
+export { Patables, PatablesAsync }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { isEqual, isFunction } from './utils/helpers'
 
-export class Patables extends Component {
+export default class Patables extends Component {
   constructor(props) {
     super(props)
 
