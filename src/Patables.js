@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { isEqual, isFunction } from './utils/helpers'
 
-export default class Patables extends Component {
+export class Patables extends Component {
   constructor(props) {
     super(props)
 
@@ -28,7 +28,6 @@ export default class Patables extends Component {
     this.range = this.range.bind(this)
     this.getPagination = this.getPagination.bind(this)
     this.getRenderProps = this.getRenderProps.bind(this)
-    this.removeTableData = this.removeTableData.bind(this)
   }
 
   // LIFECYCLE METHODS
@@ -107,21 +106,6 @@ export default class Patables extends Component {
   // CURRENT PAGE
   setPageNumber(currentPage) {
     this.setState(() => ({ currentPage }))
-  }
-
-  // Remove data entry
-  // removeItemKey must be unique identifier like 'id'
-  removeTableData(arr, removeItemKey) {
-    console.log('remove: ', removeItemKey)
-    console.log('Hey I updated')
-    let removeItem = arr && arr.find((obj) => obj.id === removeItemKey)
-    let index = arr && removeItem && arr.findIndex((obj) => removeItem.id === obj.id)
-    if (index !== -1 && index !== undefined) {
-      arr.splice(index, 1)
-      this.setState(() => ({ initialData: arr }))
-    } else {
-      console.log('no matching id to remove')
-    }
   }
 
   // RESULT SET
@@ -216,8 +200,7 @@ export default class Patables extends Component {
       nextDisabled: this.state.totalPages === this.state.currentPage,
       prevDisabled: this.state.currentPage === 1,
       visibleData: this.getVisibleData(),
-      paginationButtons: this.getPagination(),
-      removeTableData: this.removeTableData
+      paginationButtons: this.getPagination()
     }
   }
 

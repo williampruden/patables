@@ -31,7 +31,7 @@
     "dist"
   ],
   "scripts": {
-    "start": "npm run build",
+    "start": "npm run build:prod && node server.js",
     "prepublish": "yarn test",
     "build": "rollup -c -o dist/index.min.js",
     "lint": "./node_modules/eslint/bin/eslint.js .",
