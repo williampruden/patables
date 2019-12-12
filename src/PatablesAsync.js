@@ -10,8 +10,8 @@ export default class PatablesAsync extends Component {
     this.state = {
       visibleData: [],
       search: '',
-      currentPage: this.props.startingPage || 1,
-      resultSet: this.props.resultSet || 5,
+      currentPage: this.props.pageParam[1] || 1,
+      resultSet: this.props.limitParam[1] || 10,
       totalPages: 1,
     }
   }
@@ -24,10 +24,10 @@ export default class PatablesAsync extends Component {
     let uri = this.props.url
 
     if (this.props.pageParam) {
-      uri = uriBuilder(uri, this.props.pageParam, this.state.currentPage)
+      uri = uriBuilder(uri, this.props.pageParam[0], this.state.currentPage)
     }
     if (this.props.limitParam) {
-      uri = uriBuilder(uri, this.props.limitParam, this.state.resultSet)
+      uri = uriBuilder(uri, this.props.limitParam[0], this.state.resultSet)
     }
     if (this.props.searchParam) {
       uri = uriBuilder(uri, this.props.searchParam[0], !this.state.search ? this.props.searchParam[1] : this.state.search)
@@ -133,13 +133,10 @@ export default class PatablesAsync extends Component {
 PatablesAsync.propTypes = {
   children: PropTypes.func,
   render: PropTypes.func,
-  visibleData: PropTypes.array,
-  startingPage: PropTypes.number,
-  resultSet: PropTypes.number,
   url: PropTypes.string,
   config: PropTypes.object,
-  pageParam: PropTypes.string,
-  limitParam: PropTypes.string,
+  pageParam: PropTypes.array,
+  limitParam: PropTypes.array,
   searchParam: PropTypes.array,
   pathToData: PropTypes.array,
   pathToPageTotal: PropTypes.array
