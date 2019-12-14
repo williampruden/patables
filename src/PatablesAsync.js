@@ -10,8 +10,8 @@ export default class PatablesAsync extends Component {
     this.state = {
       visibleData: [],
       search: '',
-      currentPage: this.props.pageParam[1] || 1,
-      resultSet: this.props.limitParam[1] || 10,
+      currentPage: this.props.pageParam ? this.props.pageParam[1] : 1,
+      resultSet: this.props.limitParam ? this.props.limitParam[1] : '',
       totalPages: 1,
     }
   }
@@ -31,6 +31,10 @@ export default class PatablesAsync extends Component {
     }
     if (this.props.searchParam) {
       uri = uriBuilder(uri, this.props.searchParam[0], !this.state.search ? this.props.searchParam[1] : this.state.search)
+    }
+
+    if (this.props.showURI) {
+      console.log('The URI is:', uri)
     }
 
     axios.get(uri, this.props.config)
@@ -139,5 +143,6 @@ PatablesAsync.propTypes = {
   limitParam: PropTypes.array,
   searchParam: PropTypes.array,
   pathToData: PropTypes.array,
-  pathToPageTotal: PropTypes.array
+  pathToPageTotal: PropTypes.array,
+  showURI: PropTypes.bool
 }

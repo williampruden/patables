@@ -1,5 +1,5 @@
 # PaTables (Async)
-Can't find an easy way to organize your table data without sacrificing all the design?  Neither could we. Introducing PaTables, a react render prop library that empowers you to handle the look and feel while we take care of the rest. PaTables is small performant library that fits nicely into any React project. 
+Can't find an easy way to organize your table data without sacrificing all the design?  Neither could we. Introducing PaTables, a react render prop library that empowers you to handle the look and feel while we take care of the rest. PaTables is a small performant library that fits nicely into any React project. 
 
 The **PatablesAsync** component allows server side pagination and requires you to pass PatablesAsync your API signature.  Alternatively, with [Patables](README.md), you can fetch and pass in all your initial data up front and let Patables handle the manipulation. 
 
@@ -56,8 +56,8 @@ class Users extends Component {
               <tr>
                 <th name='firstName' onClick={props.setColumnSortToggle}>FirstName</th>
                 <th name='lastName' onClick={props.setColumnSortToggle}>LastName</th>
-                <th name='dob' onClick={props.setColumnSortToggle}>Date Of Birth</th>
-                <th name='occupation' onClick={props.setColumnSortToggle}>Occupation</th>
+                <th name='dob'>Date Of Birth</th>
+                <th name='occupation'>Occupation</th>
               </tr>
             </thead>
             <tbody>
@@ -133,11 +133,11 @@ class Users extends Component {
                         
             <PatablesAysnc
               render={renderTable}
-              resultSet={5}
-              sortColumn='firstName'
+              limitParam={['limit', 5]}
               sortParam={['order_by', 'desc']}
-              searchParam={['query_term', 'foo']} 
-              url={`https://myAPI.com/api/v1/users`}
+              orderByParam={['sort_by', 'firstName']}
+              searchParam={['query_term', '']} 
+              url='https://myAPI.com/api/v1/users'
             />
           </div>
         </div>
@@ -155,26 +155,25 @@ export default Users
 |---	            |---	        |---	                                  |---	    |---       |
 |render           |Function     |(props) => {}                          |         |true      |
 |url              |String       |`https://myAPI.com/api/v1/resource`    |         |true      |
-|apiKey           |Array    	  |['api_key_', 'a1b2c3']                 |         |          |
+|apiKey           |Array    	  |['api_key', 'a1b2c3']                  |         |          |
 |config           |Object     	|{ headers: { key: 'value' } }          |         |          |
 |pageNeighbors    |Number     	|3         	                            |2        |          |
-|sortColumn       |String     	|'firstName'                            |         |          |
-|orderByParam     |Array        |['order_by', 'desc']                   |'asc'    |          |
-|sortParam        |Array      	|['sort_by_', 'rating']                 |         |          |
+|orderByParam     |Array        |['order_by', 'desc']                   |         |          |
+|sortParam        |Array      	|['sort_by', 'rating']                  |         |          |
 |searchParam      |Array      	|['query_term', 'foo']                  |         |          |
-|pageParam        |Array        |['page_number', 2]                     |1        |          |
-|limitParam       |Array        |['limit', 5]                           |10       |          |
+|pageParam        |Array        |['page_number', 1]                     |         |          |
+|limitParam       |Array        |['limit', 5]                           |         |          |
 |customParam      |Array      	|[{ param: 'foo', value: 'bar' }]       |         |          |
 |pathToData       |Array      	|['data', 'users']                      |         |          |
-|pathToPageTotal  |Array      	|['data', 'data', 'user_count']         |         |          |
-
+|pathToPageTotal  |Array      	|['data', 'page_total']                 |         |          |
+ 
 
 #### render
-Render takes a function that returns the JSX you wish to render onto the bag. This function is passed a set of methods and values in the form of "props" that you will use to help build your table. To learn more about these "props" skip ahead to the next section to explore what's available.
+Render takes a function that returns the JSX you wish to render. This function is passed a set of methods and values in the form of "props" that you will use to help build your table. To learn more about these "props," skip ahead to the next section to explore what's available.
 
 ```js
 <PatablesAync
-  url={`https://myAPI.com/api/v1/users`}
+  url='https://myAPI.com/api/v1/users'
   render={(props) => {
     return (
       // your table here
@@ -184,24 +183,24 @@ Render takes a function that returns the JSX you wish to render onto the bag. Th
 
 
 #### url, apiKey, config
-The `url` is what PatablesAsync uses to make API calls for new data. `apiKey` is an array where the first value is the API key param and the second value is the API key. `config` is an object where you can specify headers and their values.
+The `url` is what PatablesAsync uses to make API calls for new data. `apiKey` is an array where the first value is the API key param and the second value is the API key. `config` is an object where you can specify HTTP headers and their values.
 
-The final response is stored in the `visibleData` array and included in the props for your table. PatablesAsync is prompted by updates, fetches your data, and only causes a re-render when it detects new information.
+The final response is stored as `visibleData` within PatablesAsync and is included in the props for your table. PatablesAsync is prompted by updates, fetches your data, and only causes a re-render when it detects new information.
 
 ```js
-  <PatablesAync
-    apiKey={['api_key','a1b2c3']}
-    config={{ 
-      headers: {
-          Accept: 'application/json'
-        }
-    }}
-    url={`https://myAPI.com/api/v1/users`}
-    render={(props) => {
-      return (
-        // your table here, where you can render data from props.visibleData array
-    )
-  />
+<PatablesAync
+  apiKey={['api_key','a1b2c3']}
+  config={{ 
+    headers: {
+        Accept: 'application/json'
+      }
+  }}
+  url='https://myAPI.com/api/v1/users'
+  render={(props) => {
+    return (
+      // your table here, where you can render data from props.visibleData
+  )
+/>
 ```
 
 
@@ -211,7 +210,7 @@ PatablesAsync will provide to you the pagination logic for your tables. Here is 
 ```js
 <PatablesAsync
   pageNeighbors={1} // will give you: [1, 2, 3]
-  url={`https://myAPI.com/api/v1/users`}
+  url='https://myAPI.com/api/v1/users'
   render={(props) => {
     return (
       // your table here
@@ -220,7 +219,7 @@ PatablesAsync will provide to you the pagination logic for your tables. Here is 
 
 <PatablesAsync
   pageNeighbors={2} // will give you: [1, 2, 3, 4, 5]
-  url={`https://myAPI.com/api/v1/users`}
+  url='https://myAPI.com/api/v1/users'
   render={(props) => {
     return (
       // your table here
@@ -229,7 +228,7 @@ PatablesAsync will provide to you the pagination logic for your tables. Here is 
 
 <PatablesAsync
   pageNeighbors={3} // will give you: [1, 2, 3, 4, 5, 6, 7]
-  url={`https://myAPI.com/api/v1/users`}
+  url='https://myAPI.com/api/v1/users'
   render={(props) => {
     return (
       // your table here
@@ -238,40 +237,13 @@ PatablesAsync will provide to you the pagination logic for your tables. Here is 
 ```
 
 
-#### sortColumn
-If you know in advance what column you wish to order and sort your data on, then you can pass that information along here. Just tell PatablesAsync what `key` you wish to sort with. This 
-
-```js
-visibleData = [
-  {
-    firstName: 'Jim',
-    lastName: 'Halpert'
-  },
-  {
-    firstName: 'Dwight',
-    lastName: 'Schrute'
-  }
-]
-
-<PatablesAsync
-  sortColumn='firstName'
-  url={`https://myAPI.com/api/v1/users`}
-  render={(props) => {
-    return (
-      // your table here, will be sorted alphabetically by first name
-    )
-  }} />
-```
-
-
 #### orderByParam
-Sort order defaults to `asc` (ascending order) but can be overriden with `orderByParam`. This is an array where the first value is the sort order query param and the second value is the sort order. You can omit this second value or explicitly set it to `desc`. You will be given a method in the next section called `setColumnSortToggle` that will allow you to update the column you wish to order AND sort by.
+This is an array where the first value is the sort order query param and the second value is the sort order (either 'asc' or 'desc'). You will be given a method in the next section called `setColumnSortToggle` that will allow you to toggle the sort order and potentially update the value you wish to sort by.
 
 ```js
 <PatablesAsync
-  orderByParam={['order_by', 'desc']}
-  sortColumn='firstName'
-  url={`https://myAPI.com/api/v1/users`}
+  orderByParam={['order_by', 'desc']} // will sort your data in descending order
+  url='https://myAPI.com/api/v1/users'
   render={(props) => {
     return (
       // your table here
@@ -282,28 +254,38 @@ URI becomes `https://myAPI.com/api/v1/users?order_by=desc`
 
 
 #### sortParam
-This is an array where the first value is the sorting query param and the second value is the value.  You will be given a method in the next section called `setColumnSortToggle` that will allow you to update the column you wish to order AND sort by.
+This is an array where the first value is the sort by query param and the second value is what to sort by (ex: popularity, relevancy, title, year). You will be given a method in the next section called `setColumnSortToggle` that will allow you to update the value you wish to sort by and toggle the sort order.
 
 ```js
 <PatablesAsync
-  sortParam={['sort_by', 'rating']}
-  url={`https://myAPI.com/api/v1/users`}
+  sortParam={['sort_by', 'firstName']} // will sort the table by firstName
+  url='https://myAPI.com/api/v1/users'
   render={(props) => {
     return (
       // your table here
     )
-  }} /> 
+  }} />
+
+  visibleData = [
+    {
+      firstName: 'Dwight',
+      lastName: 'Schrute'
+    },
+    {
+      firstName: 'Jim',
+      lastName: 'Halpert'
+    }
+  ]
 ```
-URI becomes `https://myAPI.com/api/v1/users?sort_by=rating`
 
 
 #### searchParam
-This is an array where the first value is the search query param and the second value is the search term itself.  You will be given a method in the next section called `setSearchTerm` that will allow you to update the search term and fetch fresh results.
+This is an array where the first value is the search query param and the second value is the search term itself (you should pass in an empty string for this value if you want the search term to be empty initially).  You will be given a method in the next section called `setSearchTerm` that will allow you to update the search term and fetch fresh results.
 
 ```js
 <PatablesAync
   searchParam={['query_term', 'foo']} 
-  url={`https://myAPI.com/api/v1/users`}
+  url='https://myAPI.com/api/v1/users'
   render={(props) => {
     return (
       // your table here
@@ -314,12 +296,12 @@ URI becomes `https://myAPI.com/api/v1/users?query_term=foo`
 
 
 #### pageParam
-If for some reason you don't want the table to start on the first page of results, you can specify the starting page here. Defaults to page 1.
+This is an array where the first value is the page number query param and the second value is the page you want your results to start on. You will be given a method in the next section called `setPageNumber` that will allow you to change to another page number.
 
 ```js
 <PatablesAsync
-  pageParam={['page_number', 3]}
-  url={`https://myAPI.com/api/v1/users`}
+  pageParam={['page_number', 1]} // will return results starting on page 1
+  url='https://myAPI.com/api/v1/users'
   render={(props) => {
     return (
       // your table here
@@ -329,12 +311,12 @@ If for some reason you don't want the table to start on the first page of result
 
 
 #### limitParam
-By default, PatablesAsync will return a result set that contains the first 10 items in its visibleData array for you to display on the screen.  If you would like to change the default setting, just pass your desired value into `limitParam`.
+This is an array where the first value is the limit query param and the second value is the number of items you want to display on the screen. You will be given a method in the next section called `setResultSet` that will allow you to change the number of results you get back.
 
 ```js
 <PatablesAsync
-  limitParam={['limit', 20]} // Patables will now return 20 items per page.
-  url={`https://myAPI.com/api/v1/users`}
+  limitParam={['limit', 10]} // will return 10 items per page
+  url='https://myAPI.com/api/v1/users'
   render={(props) => {
     return (
       // your table here
@@ -344,10 +326,54 @@ By default, PatablesAsync will return a result set that contains the first 10 it
 
 
 #### customParam
+If you have additional query params you'd like to include in the URI or if you'd rather pass all of them in at once, use the following format:
+
+```js
+<PatablesAsync
+  customParam={[
+    { param: 'foo', value: 'bar' },
+    { param: 'baz', value: 'woo'} 
+  ]}
+  url='https://myAPI.com/api/v1/users'
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} /> 
+```
+URI becomes `https://myAPI.com/api/v1/users?foo=bar&baz=woo`
 
 
-#### pathToData
+#### pathToData, pathToPageTotal
+If the data you want is nested in an object, use an array of strings to specify the path to the data. Otherwise, you can omit this prop and PatablesAsync will directly set the response object as the `visibleData` coming back.
 
+If the page total number you want is nested in an object, use an array of strings to specify the path to the number. Otherwise, you can omit this prop and PatablesAsync will set the total pages to 1 (ie. pagination is disabled).
 
-#### pathToPageTotal
+```js
+<PatablesAsync
+  url='https://myAPI.com/api/v1/users'
+  pathToData={['data']}
+  pathToPageTotal={['page_total']}
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} /> 
 
+// The above props will enable PatablesAsync to properly access data and page total in this response object:
+response = {
+  status: 'success',
+  data: [
+    {
+      firstName: 'Jim',
+      lastName: 'Halpert'
+    },
+    {
+      firstName: 'Dwight',
+      lastName: 'Schrute'
+    }
+  ],
+  page_total: 10
+}
+```
+                
