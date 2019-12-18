@@ -137,7 +137,7 @@ class Users extends Component {
               sortParam={['order_by', 'desc']}
               orderByParam={['sort_by', 'firstName']}
               searchParam={['query_term', '']} 
-              url='https://myAPI.com/api/v1/users'
+              url='https://myAPI.com/api/v1/users' 
             />
           </div>
         </div>
@@ -172,7 +172,7 @@ export default Users
 Render takes a function that returns the JSX you wish to render. This function is passed a set of methods and values in the form of "props" that you will use to help build your table. To learn more about these "props," skip ahead to the next section to explore what's available.
 
 ```js
-<PatablesAync
+<PatablesAsync
   url='https://myAPI.com/api/v1/users'
   render={(props) => {
     return (
@@ -188,7 +188,7 @@ The `url` is what PatablesAsync uses to make API calls for new data. `apiKey` is
 The final response is stored as `visibleData` within PatablesAsync and is included in the props for your table. PatablesAsync is prompted by updates, fetches your data, and only causes a re-render when it detects new information.
 
 ```js
-<PatablesAync
+<PatablesAsync
   apiKey={['api_key','a1b2c3']}
   config={{ 
     headers: {
@@ -199,9 +199,10 @@ The final response is stored as `visibleData` within PatablesAsync and is includ
   render={(props) => {
     return (
       // your table here, where you can render data from props.visibleData
-  )
-/>
+    )
+  }}/>
 ```
+URI becomes `https://myAPI.com/api/v1/users?apiKey=a1b2c3`
 
 
 #### pageNeighbors
@@ -266,24 +267,25 @@ This is an array where the first value is the sort by query param and the second
     )
   }} />
 
-  visibleData = [
-    {
-      firstName: 'Dwight',
-      lastName: 'Schrute'
-    },
-    {
-      firstName: 'Jim',
-      lastName: 'Halpert'
-    }
-  ]
+visibleData = [
+  {
+    firstName: 'Dwight',
+    lastName: 'Schrute'
+  },
+  {
+    firstName: 'Jim',
+    lastName: 'Halpert'
+  }
+]
 ```
+URI becomes `https://myAPI.com/api/v1/users?sort_by=firstName`
 
 
 #### searchParam
 This is an array where the first value is the search query param and the second value is the search term itself (you should pass in an empty string for this value if you want the search term to be empty initially).  You will be given a method in the next section called `setSearchTerm` that will allow you to update the search term and fetch fresh results.
 
 ```js
-<PatablesAync
+<PatablesAsync
   searchParam={['query_term', 'foo']} 
   url='https://myAPI.com/api/v1/users'
   render={(props) => {
@@ -308,6 +310,7 @@ This is an array where the first value is the page number query param and the se
     )
   }} />
 ```
+URI becomes `https://myAPI.com/api/v1/users?page_number=1`
 
 
 #### limitParam
@@ -323,16 +326,17 @@ This is an array where the first value is the limit query param and the second v
     )
   }} /> 
 ```
+URI becomes `https://myAPI.com/api/v1/users?limit=10`
 
 
 #### customParam
-If you have additional query params you'd like to include in the URI or if you'd rather pass all of them in at once, use the following format:
+If you have additional query params you'd like to include in the URI, use the format below. Note that these values cannot be changed from their original definition, since there are no methods/handlers to change them.
 
 ```js
 <PatablesAsync
   customParam={[
-    { param: 'foo', value: 'bar' },
-    { param: 'baz', value: 'woo'} 
+    { param: 'foo', value: 'abc' },
+    { param: 'bar', value: 123 } 
   ]}
   url='https://myAPI.com/api/v1/users'
   render={(props) => {
@@ -341,7 +345,7 @@ If you have additional query params you'd like to include in the URI or if you'd
     )
   }} /> 
 ```
-URI becomes `https://myAPI.com/api/v1/users?foo=bar&baz=woo`
+URI becomes `https://myAPI.com/api/v1/users?foo=abc&baz=123`
 
 
 #### pathToData, pathToPageTotal
