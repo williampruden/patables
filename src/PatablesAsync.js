@@ -9,10 +9,10 @@ export default class PatablesAsync extends Component {
     this.state = {
       visibleData: [],
       search: '',
-      sortColumn: this.props.sortColumn || '',
-      currentPage: this.props.startingPage || 1,
-      resultSet: this.props.resultSet || 5,
-      sortOrder: this.props.orderByParam ? this.props.orderByParam[1] : 'asc',
+      sortColumn: '',
+      currentPage: this.props.pageParam ? this.props.pageParam[1] : 1,
+      resultSet: this.props.limitParam ? this.props.limitParam[1] : '',
+      sortOrder: this.props.orderByParam ? this.props.orderByParam[1] : '',
       pageNeighbors: this.props.pageNeighbors || 2,
       totalPages: 1,
       isLoading: false
@@ -25,7 +25,15 @@ export default class PatablesAsync extends Component {
 
   getVisibleData = () => {
     let uri = this.props.url
-
+    if (this.props.pageParam) {
+      uri = uriBuilder(uri, this.props.pageParam[0], this.state.currentPage)
+    }
+    if (this.props.limitParam) {
+      uri = uriBuilder(uri, this.props.limitParam[0], this.state.resultSet)
+    }
+    if (this.props.searchParam) {
+      uri = uriBuilder(uri, this.props.searchParam[0], !this.state.search ? this.props.searchParam[1] : this.state.search)
+    }
     if (this.props.apiKey) {
       uri = uriBuilder(uri, this.props.apiKey[0], this.props.apiKey[1])
     }
@@ -42,12 +50,28 @@ export default class PatablesAsync extends Component {
         uri = uriBuilder(uri, paramVal[0], paramVal[1])
       })
     }
+    if (this.props.showURI) {
+      console.log('The URI is:', uri)
+    }
 
     this.setState({ isLoading: true }, () => {
       axios.get(uri, this.props.config)
         .then(response => {
+          let finalData = { ...response }
+          this.props.pathToData && this.props.pathToData.forEach(key => {
+            finalData = finalData[key]
+          })
+
+          let finalPageTotal = { ...response }
+          if (this.props.pathToPageTotal) { 
+            this.props.pathToPageTotal.forEach(key => {
+              finalPageTotal = finalPageTotal[key]
+            })
+          }
+
           this.setState({
-            visibleData: response
+            visibleData: finalData,
+            totalPages: typeof finalPageTotal !== 'number' ? 1 : finalPageTotal
           })
         })
         .catch(err => {
@@ -59,6 +83,27 @@ export default class PatablesAsync extends Component {
     })
   }
 
+  // SEARCH BOX
+  setSearchTerm = (e) => {
+    let search = e.target.value
+    this.setState(() => ({ search }))
+  }
+
+  submitSearch = () => {
+    if (this.state.search && this.props.searchParam) {
+      this.setState({ currentPage: 1 }, this.getVisibleData)
+    } else {
+      console.warn('Warning🚨: Cannot search without searchParam.')
+    }
+  }
+
+  clearSearch = () => {
+    this.setState({
+      search: '',
+      currentPage: 1
+    }, this.getVisibleData)
+  }
+
   setColumnSortToggle = (e) => {
     let sortColumn = e.target.getAttribute('name')
     let sortOrder = this.state.sortOrder
@@ -68,6 +113,22 @@ export default class PatablesAsync extends Component {
       sortOrder = 'asc'
     }
     this.setState(() => ({ sortColumn, sortOrder }), this.getVisibleData)
+  }
+
+  // CURRENT PAGE
+  setPageNumber = (currentPage) => {
+    this.setState(() => ({ currentPage }), this.getVisibleData)
+  }
+
+  // RESULT SET AKA LIMIT
+  setResultSet = (value) => {
+    let resultSet = value
+
+    if (typeof resultSet === 'string') {
+      resultSet = parseInt(resultSet)
+    }
+
+    this.setState({ currentPage: 1, resultSet }, this.getVisibleData)
   }
 
   // GENERATE AN ARRAY OF PAGES
@@ -153,7 +214,13 @@ PatablesAsync.propTypes = {
   url: PropTypes.string,
   config: PropTypes.object,
   apiKey: PropTypes.array,
+  pageParam: PropTypes.array,
+  limitParam: PropTypes.array,
+  searchParam: PropTypes.array,
   orderByParam: PropTypes.array,
   sortParam: PropTypes.array,
-  customParam: PropTypes.array
+  customParam: PropTypes.array,
+  pathToData: PropTypes.array,
+  pathToPageTotal: PropTypes.array,
+  showURI: PropTypes.bool
 }
