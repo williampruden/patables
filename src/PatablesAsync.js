@@ -205,11 +205,7 @@ export default class PatablesAsync extends Component {
 PatablesAsync.propTypes = {
   children: PropTypes.func,
   render: PropTypes.func,
-  visibleData: PropTypes.array,
   startingPage: PropTypes.number,
-  resultSet: PropTypes.number,
-  sortColumn: PropTypes.string,
-  sortOrder: PropTypes.string,
   pageNeighbors: PropTypes.number,
   url: PropTypes.string,
   config: PropTypes.object,
