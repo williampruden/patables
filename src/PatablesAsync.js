@@ -63,7 +63,7 @@ export default class PatablesAsync extends Component {
           })
 
           let finalPageTotal = { ...response }
-          if (this.props.pathToPageTotal) { 
+          if (this.props.pathToPageTotal) {
             this.props.pathToPageTotal.forEach(key => {
               finalPageTotal = finalPageTotal[key]
             })
