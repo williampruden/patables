@@ -133,6 +133,7 @@ class Users extends Component {
                         
             <PatablesAysnc
               render={renderTable}
+              pageParam={['page', 1]}
               limitParam={['limit', 5]}
               sortParam={['order_by', 'desc']}
               orderByParam={['sort_by', 'firstName']}
@@ -166,6 +167,7 @@ export default Users
 |customParam      |Array      	|[{ param: 'foo', value: 'bar' }]       |         |          |
 |pathToData       |Array      	|['data', 'users']                      |         |          |
 |pathToPageTotal  |Array      	|['data', 'page_total']                 |         |          |
+|showURI          |Boolean     	|`true`                                 |         |          |
  
 
 #### render
@@ -345,7 +347,7 @@ If you have additional query params you'd like to include in the URI, use the fo
     )
   }} /> 
 ```
-URI becomes `https://myAPI.com/api/v1/users?foo=abc&baz=123`
+URI becomes `https://myAPI.com/api/v1/users?foo=abc&bar=123`
 
 
 #### pathToData, pathToPageTotal
@@ -381,3 +383,18 @@ response = {
 }
 ```
                 
+#### showURI
+This is a boolean value that allows you to console.log the URI that PatablesAsync is using in any given API call.  This is helpful for debugging during development to ensure that you are passing in the query params and values that you expect.
+
+```js
+<PatablesAsync
+  url='https://myAPI.com/api/v1/users'
+  searchParam={['query_term', 'foo']} 
+  showURI
+  render={(props) => {
+    return (
+      // your table here
+    )
+  }} /> 
+```
+Console logs out the message: The URI is: `https://myAPI.com/api/v1/users?query_term=foo`

@@ -12,7 +12,7 @@ export default class PatablesAsync extends Component {
       search: '',
       currentPage: this.props.pageParam ? this.props.pageParam[1] : 1,
       resultSet: this.props.limitParam ? this.props.limitParam[1] : '',
-      totalPages: 1,
+      totalPages: 1
     }
   }
 
@@ -98,7 +98,6 @@ export default class PatablesAsync extends Component {
     this.setState({ currentPage: 1, resultSet }, this.getVisibleData)
   }
 
-
   // CREATING PROPS
   getRenderProps = () => {
     return {
@@ -107,7 +106,7 @@ export default class PatablesAsync extends Component {
       setResultSet: this.setResultSet,
       setSearchTerm: this.setSearchTerm,
       submitSearch: this.submitSearch,
-      clearSearch: this.clearSearch,
+      clearSearch: this.clearSearch
     }
   }
 
