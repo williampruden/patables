@@ -167,7 +167,7 @@ export default Users
 |customParam      |Array      	|[{ param: 'foo', value: 'bar' }]       |         |          |
 |pathToData       |Array      	|['data', 'users']                      |         |          |
 |pathToPageTotal  |Array      	|['data', 'page_total']                 |         |          |
-|showURI          |String      	|`true`                                 |         |          |
+|showURI          |Boolean     	|`true`                                 |         |          |
  
 
 #### render

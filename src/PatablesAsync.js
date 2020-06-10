@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { isFunction, uriBuilder } from './utils/helpers'
 import axios from 'axios'
+
 export default class PatablesAsync extends Component {
   constructor(props) {
     super(props)
@@ -25,6 +26,7 @@ export default class PatablesAsync extends Component {
 
   getVisibleData = () => {
     let uri = this.props.url
+
     if (this.props.pageParam) {
       uri = uriBuilder(uri, this.props.pageParam[0], this.state.currentPage)
     }
@@ -34,6 +36,7 @@ export default class PatablesAsync extends Component {
     if (this.props.searchParam) {
       uri = uriBuilder(uri, this.props.searchParam[0], !this.state.search ? this.props.searchParam[1] : this.state.search)
     }
+    
     if (this.props.apiKey) {
       uri = uriBuilder(uri, this.props.apiKey[0], this.props.apiKey[1])
     }
@@ -50,6 +53,7 @@ export default class PatablesAsync extends Component {
         uri = uriBuilder(uri, paramVal[0], paramVal[1])
       })
     }
+
     if (this.props.showURI) {
       console.log('The URI is:', uri)
     }
@@ -81,6 +85,7 @@ export default class PatablesAsync extends Component {
           this.setState({ isLoading: false })
         })
     })
+
   }
 
   // SEARCH BOX
@@ -170,6 +175,7 @@ export default class PatablesAsync extends Component {
     return {
       ...this.state,
       setPageNumber: this.setPageNumber,
+
       setColumnSortToggle: this.setColumnSortToggle,
       setResultSet: this.setResultSet,
       setSearchTerm: this.setSearchTerm,
@@ -184,6 +190,7 @@ export default class PatablesAsync extends Component {
   render() {
     const { children, render } = this.props
     const renderProps = this.getRenderProps()
+
     const renderComp = () => {
       if (render && isFunction(render)) {
         return render(renderProps)
@@ -194,6 +201,7 @@ export default class PatablesAsync extends Component {
         return undefined
       }
     }
+
     return (
       <div>
         {renderComp()}
