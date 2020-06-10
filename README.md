@@ -1,5 +1,7 @@
 # PaTables
-Can't find an easy way to organize your table data without sacrificing all the design?  Neither could we. Introducing PaTables, a react render prop library that empowers you to handle the look and feel while we take care of the rest. PaTables is small performant library that fits nicely into any react project. 
+Can't find an easy way to organize your table data without sacrificing all the design?  Neither could we. Introducing PaTables, a react render prop library that empowers you to handle the look and feel while we take care of the rest. PaTables is a small performant library that fits nicely into any React project. 
+
+With the **Patables** component, you fetch and pass in all your initial data up front and let Patables handle the manipulation.  Alternatively, you can use [PatablesAsync](PatablesAsync.md), which allows server side pagination and requires you to pass PatablesAsync your API signature instead.
 
 ## Docs
 * [The Install](#the-install)
