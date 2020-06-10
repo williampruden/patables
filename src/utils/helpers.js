@@ -71,3 +71,4 @@ export const uriBuilder = (uri, key, value) => {
 
   return `${uriCopy}${prefix}${key}=${value}`
 }
+
